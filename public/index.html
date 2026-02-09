@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fofo APIs - Arabic AI APIs</title>
+    <meta name="description" content="Arabic AI-powered APIs for summarization, OCR, and more">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #fff;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            padding: 60px 20px 40px;
+        }
+
+        h1 {
+            font-size: 3.5rem;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .tagline {
+            font-size: 1.3rem;
+            opacity: 0.9;
+            margin-bottom: 40px;
+        }
+
+        .apis-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 30px;
+            margin-top: 60px;
+        }
+
+        .api-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 40px;
+            transition: transform 0.3s, box-shadow 0.3s;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .api-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+        }
+
+        .api-card h2 {
+            font-size: 2rem;
+            margin-bottom: 15px;
+        }
+
+        .api-card .icon {
+            font-size: 3rem;
+            margin-bottom: 20px;
+        }
+
+        .api-card p {
+            font-size: 1.1rem;
+            line-height: 1.6;
+            margin-bottom: 20px;
+            opacity: 0.9;
+        }
+
+        .price {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #c8ff00;
+            margin: 20px 0;
+        }
+
+        .cta-button {
+            display: inline-block;
+            background: #c8ff00;
+            color: #333;
+            padding: 15px 40px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 1.1rem;
+            transition: transform 0.2s, box-shadow 0.2s;
+            margin-top: 20px;
+        }
+
+        .cta-button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 30px rgba(200, 255, 0, 0.4);
+        }
+
+        .features {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            margin-top: 20px;
+        }
+
+        .feature-tag {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 80px;
+            padding: 40px 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        footer a {
+            color: #c8ff00;
+            text-decoration: none;
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2.5rem;
+            }
+
+            .tagline {
+                font-size: 1.1rem;
+            }
+
+            .apis-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Fofo APIs</h1>
+            <p class="tagline">Arabic AI-Powered APIs Built for Developers</p>
+        </header>
+
+        <div class="apis-grid">
+            <!-- Arabic Summarizer -->
+            <div class="api-card">
+                <div class="icon">📝</div>
+                <h2>Arabic Summarizer</h2>
+                <p>تلخيص ذكي للنصوص العربية باستخدام AI. حوّل مقالات طويلة لملخصات مفيدة في ثواني.</p>
+                
+                <div class="price">$0.01 / request</div>
+                
+                <div class="features">
+                    <span class="feature-tag">✨ AI-powered</span>
+                    <span class="feature-tag">⚡ Fast</span>
+                    <span class="feature-tag">🎯 Accurate</span>
+                </div>
+
+                <a href="/arabic-summarizer" class="cta-button">Try Now</a>
+            </div>
+
+            <!-- Arabic OCR -->
+            <div class="api-card">
+                <div class="icon">🔍</div>
+                <h2>Arabic OCR</h2>
+                <p>استخراج نصوص عربية من الصور بدقة عالية. يدعم الفواتير والمستندات والكتب.</p>
+                
+                <div class="price">$0.01 / request</div>
+                
+                <div class="features">
+                    <span class="feature-tag">📸 Image to Text</span>
+                    <span class="feature-tag">98% Accuracy</span>
+                    <span class="feature-tag">🚀 Fast</span>
+                </div>
+
+                <a href="/api/ocr" class="cta-button">View Docs</a>
+            </div>
+
+            <!-- Hawas App -->
+            <div class="api-card">
+                <div class="icon">☕</div>
+                <h2>Hawas</h2>
+                <p>تطبيق القهوة المفضل للسعوديين. اكتشف أفضل المقاهي واطلب قهوتك المفضلة.</p>
+                
+                <div class="price">Free App</div>
+                
+                <div class="features">
+                    <span class="feature-tag">📱 iOS</span>
+                    <span class="feature-tag">🇸🇦 Saudi</span>
+                    <span class="feature-tag">☕ Coffee</span>
+                </div>
+
+                <a href="/hawas" class="cta-button">Learn More</a>
+            </div>
+        </div>
+
+        <footer>
+            <p>Built with ❤️ by <a href="https://x.com/Fai9al_fofo" target="_blank">@Fai9al_fofo</a></p>
+            <p style="margin-top: 10px; opacity: 0.7;">Need custom APIs? Let's talk!</p>
+        </footer>
+    </div>
+</body>
+</html>

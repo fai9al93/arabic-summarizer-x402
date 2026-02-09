@@ -1,0 +1,22 @@
+{
+  "applinks": {
+    "apps": [],
+    "details": [
+      {
+        "appID": "33632ES9QZ.app.hawas.ios",
+        "paths": [
+          "/auth/*",
+          "/reset-password",
+          "/reset-password/*",
+          "/confirm",
+          "/confirm/*"
+        ]
+      }
+    ]
+  },
+  "webcredentials": {
+    "apps": [
+      "33632ES9QZ.app.hawas.ios"
+    ]
+  }
+}

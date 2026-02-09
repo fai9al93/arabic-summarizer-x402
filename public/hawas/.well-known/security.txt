@@ -1,0 +1,11 @@
+# Hawas Security Policy
+# https://securitytxt.org/
+
+Contact: mailto:security@hawasapp.com
+Expires: 2026-12-31T23:59:59.000Z
+Preferred-Languages: en, ar
+Canonical: https://hawasapp.com/.well-known/security.txt
+Policy: https://hawasapp.com/security-policy.html
+
+# We appreciate responsible disclosure of security vulnerabilities.
+# Please report any security issues to security@hawasapp.com

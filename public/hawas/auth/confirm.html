@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Email Confirmation - Hawas</title>
+    <meta name="description" content="Confirm your Hawas email">
+    <meta name="robots" content="noindex, nofollow">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="/images/favicon.png">
+    <link rel="apple-touch-icon" href="/images/apple-touch-icon.png">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background-color: #ffffff;
+            color: #000000;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 24px;
+        }
+
+        .container {
+            max-width: 400px;
+            text-align: center;
+        }
+
+        .logo {
+            width: 80px;
+            height: 80px;
+            margin-bottom: 32px;
+        }
+
+        h1 {
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 16px;
+            color: #000000;
+        }
+
+        p {
+            font-size: 16px;
+            color: #666666;
+            line-height: 1.5;
+            margin-bottom: 32px;
+        }
+
+        .spinner {
+            width: 40px;
+            height: 40px;
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #000000;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 24px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 16px 32px;
+            font-size: 16px;
+            font-weight: 600;
+            text-decoration: none;
+            border-radius: 28px;
+            transition: all 0.2s ease;
+            cursor: pointer;
+            border: none;
+        }
+
+        .btn-primary {
+            background-color: #000000;
+            color: #ffffff;
+        }
+
+        .btn-primary:hover {
+            background-color: #333333;
+        }
+
+        .btn-secondary {
+            background-color: transparent;
+            color: #000000;
+            border: 2px solid #000000;
+            margin-top: 16px;
+        }
+
+        .btn-secondary:hover {
+            background-color: #f5f5f5;
+        }
+
+        .error-state {
+            display: none;
+        }
+
+        .loading-state {
+            display: block;
+        }
+
+        .success-state {
+            display: none;
+        }
+
+        .footer {
+            margin-top: 48px;
+            font-size: 14px;
+            color: #999999;
+        }
+
+        .footer a {
+            color: #666666;
+            text-decoration: none;
+        }
+
+        .footer a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Logo -->
+        <img src="/images/logo.png" alt="Hawas" class="logo" onerror="this.style.display='none'">
+
+        <!-- Loading State -->
+        <div id="loading-state" class="loading-state">
+            <div class="spinner"></div>
+            <h1>Opening Hawas...</h1>
+            <p>Please wait while we redirect you to the app to confirm your email.</p>
+        </div>
+
+        <!-- Success State (app opened) -->
+        <div id="success-state" class="success-state">
+            <h1>Redirecting to App</h1>
+            <p>The Hawas app should now be open. If it didn't open automatically, tap the button below.</p>
+            <a href="#" id="open-app-btn" class="btn btn-primary">Open Hawas App</a>
+        </div>
+
+        <!-- Error State (app not installed or can't open) -->
+        <div id="error-state" class="error-state">
+            <h1>Get the Hawas App</h1>
+            <p>To confirm your email, you'll need the Hawas app installed on your device.</p>
+            <a href="https://apps.apple.com/app/hawas/id6740045498" class="btn btn-primary">Download on App Store</a>
+            <br>
+            <a href="#" id="retry-btn" class="btn btn-secondary">Try Again</a>
+        </div>
+
+        <!-- Footer -->
+        <div class="footer">
+            <p>Need help? <a href="mailto:support@hawasapp.com">Contact Support</a></p>
+        </div>
+    </div>
+
+    <script>
+        (function() {
+            // Parse URL parameters
+            const urlParams = new URLSearchParams(window.location.search);
+            const tokenHash = urlParams.get('token_hash') || urlParams.get('token');
+            const type = urlParams.get('type') || 'signup';
+
+            // Build the deep link URL
+            let deepLinkUrl = 'hawas://auth/confirm';
+            if (tokenHash) {
+                deepLinkUrl += '?token_hash=' + encodeURIComponent(tokenHash);
+                deepLinkUrl += '&type=' + encodeURIComponent(type);
+            }
+
+            // Store for retry
+            window.deepLinkUrl = deepLinkUrl;
+
+            // Elements
+            const loadingState = document.getElementById('loading-state');
+            const successState = document.getElementById('success-state');
+            const errorState = document.getElementById('error-state');
+            const openAppBtn = document.getElementById('open-app-btn');
+            const retryBtn = document.getElementById('retry-btn');
+
+            // Set up buttons
+            openAppBtn.href = deepLinkUrl;
+
+            retryBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                attemptDeepLink();
+            });
+
+            // Attempt to open the app
+            function attemptDeepLink() {
+                // Show loading state
+                loadingState.style.display = 'block';
+                successState.style.display = 'none';
+                errorState.style.display = 'none';
+
+                // Track if we've left the page (app opened)
+                let hasLeftPage = false;
+                let timeout;
+
+                // Listen for visibility change (app opened)
+                const visibilityHandler = function() {
+                    if (document.hidden) {
+                        hasLeftPage = true;
+                    }
+                };
+                document.addEventListener('visibilitychange', visibilityHandler);
+
+                // Try to open the app
+                window.location.href = deepLinkUrl;
+
+                // After 2.5 seconds, check if we're still here
+                timeout = setTimeout(function() {
+                    document.removeEventListener('visibilitychange', visibilityHandler);
+
+                    if (hasLeftPage) {
+                        // App opened successfully
+                        loadingState.style.display = 'none';
+                        successState.style.display = 'block';
+                        errorState.style.display = 'none';
+                    } else {
+                        // App didn't open - show error state
+                        loadingState.style.display = 'none';
+                        successState.style.display = 'none';
+                        errorState.style.display = 'block';
+                    }
+                }, 2500);
+
+                // Clean up on page hide
+                window.addEventListener('pagehide', function() {
+                    clearTimeout(timeout);
+                    document.removeEventListener('visibilitychange', visibilityHandler);
+                });
+            }
+
+            // Start the deep link attempt
+            if (tokenHash) {
+                attemptDeepLink();
+            } else {
+                // No token - show error
+                loadingState.style.display = 'none';
+                errorState.style.display = 'block';
+                document.querySelector('#error-state h1').textContent = 'Invalid Link';
+                document.querySelector('#error-state p').textContent = 'This confirmation link appears to be invalid or expired. Please request a new confirmation email from the app.';
+            }
+        })();
+    </script>
+</body>
+</html>

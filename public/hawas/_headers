@@ -1,0 +1,32 @@
+# Security Headers for Hawas Website
+# Compatible with Netlify, Cloudflare Pages, and similar static hosting
+
+# Apple App Site Association file for Universal Links
+# Must be served with application/json content type and no redirects
+/.well-known/apple-app-site-association
+  Content-Type: application/json
+  Cache-Control: max-age=86400
+
+# Also serve from root path (some clients check both locations)
+/apple-app-site-association
+  Content-Type: application/json
+  Cache-Control: max-age=86400
+
+/*
+  # Prevent clickjacking attacks
+  X-Frame-Options: DENY
+
+  # Prevent MIME type sniffing
+  X-Content-Type-Options: nosniff
+
+  # Control referrer information
+  Referrer-Policy: strict-origin-when-cross-origin
+
+  # Content Security Policy
+  Content-Security-Policy: default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; frame-ancestors 'none'; base-uri 'self'; form-action 'self'
+
+  # Restrict browser features
+  Permissions-Policy: geolocation=(), microphone=(), camera=(), payment=(), usb=(), magnetometer=(), gyroscope=(), accelerometer=()
+
+  # Enable XSS protection (legacy browsers)
+  X-XSS-Protection: 1; mode=block

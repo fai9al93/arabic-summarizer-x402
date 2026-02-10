@@ -1,113 +1,126 @@
+# -*- coding: utf-8 -*-
+"""
+Arabic Summarizer API - AI-powered Arabic text summarization
+Price: $0.01 per request
+"""
+
+from http.server import BaseHTTPRequestHandler
 import json
 import os
 from anthropic import Anthropic
 
-def handler(request):
-    """Vercel serverless function handler for Arabic summarization"""
+class handler(BaseHTTPRequestHandler):
+    def do_OPTIONS(self):
+        """Handle CORS preflight"""
+        self.send_response(200)
+        self.send_header('Access-Control-Allow-Origin', '*')
+        self.send_header('Access-Control-Allow-Methods', 'POST, GET, OPTIONS')
+        self.send_header('Access-Control-Allow-Headers', 'Content-Type')
+        self.end_headers()
     
-    # Handle CORS
-    if request.get('method') == 'OPTIONS':
-        return {
-            'statusCode': 200,
-            'headers': {
-                'Access-Control-Allow-Origin': '*',
-                'Access-Control-Allow-Methods': 'POST, GET, OPTIONS',
-                'Access-Control-Allow-Headers': 'Content-Type',
-            },
-            'body': ''
-        }
-    
-    # GET request - return info
-    if request.get('method') == 'GET':
-        return {
-            'statusCode': 200,
-            'headers': {
-                'Content-Type': 'application/json',
-                'Access-Control-Allow-Origin': '*',
-            },
-            'body': json.dumps({
-                'name': 'Arabic Summarizer',
-                'description': 'تلخيص النصوص العربية باستخدام AI',
-                'price': '$0.01/request',
-                'method': 'POST',
-                'body': {
-                    'text': 'النص المراد تلخيصه'
+    def do_GET(self):
+        """Return API info"""
+        self.send_response(200)
+        self.send_header('Content-type', 'application/json')
+        self.send_header('Access-Control-Allow-Origin', '*')
+        self.end_headers()
+        
+        response = {
+            'service': 'Arabic Summarizer API',
+            'version': '1.0.0',
+            'price': '$0.01/request',
+            'description': 'تلخيص النصوص العربية باستخدام AI',
+            'endpoints': {
+                'POST /api/summarize': {
+                    'description': 'Summarize Arabic text',
+                    'body': {
+                        'text': 'النص المراد تلخيصه (minimum 50 characters)'
+                    },
+                    'response': {
+                        'summary': 'الملخص',
+                        'original_length': 'عدد الأحرف الأصلي',
+                        'summary_length': 'عدد أحرف الملخص',
+                        'compression_ratio': 'نسبة الضغط'
+                    }
                 }
-            })
+            }
         }
+        
+        self.wfile.write(json.dumps(response, ensure_ascii=False, indent=2).encode('utf-8'))
     
-    # POST request - summarize
-    try:
-        # Parse request body
-        body = request.get('body', '{}')
-        if isinstance(body, str):
-            data = json.loads(body)
-        else:
-            data = body
-        
-        text = data.get('text', '').strip()
-        
-        if not text:
-            return {
-                'statusCode': 400,
-                'headers': {
-                    'Content-Type': 'application/json',
-                    'Access-Control-Allow-Origin': '*',
-                },
-                'body': json.dumps({'error': 'Text is required'})
-            }
-        
-        if len(text) < 50:
-            return {
-                'statusCode': 400,
-                'headers': {
-                    'Content-Type': 'application/json',
-                    'Access-Control-Allow-Origin': '*',
-                },
-                'body': json.dumps({'error': 'Text too short to summarize (minimum 50 characters)'})
-            }
-        
-        # Use Anthropic API for summarization
-        api_key = os.getenv('ANTHROPIC_API_KEY')
-        if not api_key:
-            # Fallback to simple extractive summarization
-            sentences = text.replace('،', '.').replace('؛', '.').split('.')
-            sentences = [s.strip() for s in sentences if s.strip()]
-            summary = '. '.join(sentences[:3]) + '.'
-        else:
-            client = Anthropic(api_key=api_key)
+    def do_POST(self):
+        """Summarize Arabic text"""
+        try:
+            # Parse request body
+            content_length = int(self.headers.get('Content-Length', 0))
+            body = self.rfile.read(content_length).decode('utf-8')
+            data = json.loads(body) if body else {}
             
-            response = client.messages.create(
-                model="claude-sonnet-4-5",
-                max_tokens=500,
-                messages=[{
-                    "role": "user",
-                    "content": f"لخص هذا النص بشكل مختصر ومفيد (2-3 جمل):\n\n{text}"
-                }]
-            )
+            text = data.get('text', '').strip()
             
-            summary = response.content[0].text.strip()
-        
-        return {
-            'statusCode': 200,
-            'headers': {
-                'Content-Type': 'application/json',
-                'Access-Control-Allow-Origin': '*',
-            },
-            'body': json.dumps({
+            # Validate input
+            if not text:
+                self.send_response(400)
+                self.send_header('Content-type', 'application/json')
+                self.send_header('Access-Control-Allow-Origin', '*')
+                self.end_headers()
+                self.wfile.write(json.dumps({
+                    'error': 'Text is required'
+                }).encode('utf-8'))
+                return
+            
+            if len(text) < 50:
+                self.send_response(400)
+                self.send_header('Content-type', 'application/json')
+                self.send_header('Access-Control-Allow-Origin', '*')
+                self.end_headers()
+                self.wfile.write(json.dumps({
+                    'error': 'Text too short to summarize (minimum 50 characters)'
+                }).encode('utf-8'))
+                return
+            
+            # Use Anthropic API for summarization
+            api_key = os.getenv('ANTHROPIC_API_KEY')
+            
+            if not api_key:
+                # Fallback to simple extractive summarization
+                sentences = text.replace('،', '.').replace('؛', '.').split('.')
+                sentences = [s.strip() for s in sentences if s.strip()]
+                summary = '. '.join(sentences[:3]) + '.'
+            else:
+                client = Anthropic(api_key=api_key)
+                
+                response = client.messages.create(
+                    model="claude-sonnet-4-5",
+                    max_tokens=500,
+                    messages=[{
+                        "role": "user",
+                        "content": f"لخص هذا النص بشكل مختصر ومفيد (2-3 جمل):\n\n{text}"
+                    }]
+                )
+                
+                summary = response.content[0].text.strip()
+            
+            # Send success response
+            self.send_response(200)
+            self.send_header('Content-type', 'application/json')
+            self.send_header('Access-Control-Allow-Origin', '*')
+            self.end_headers()
+            
+            result = {
                 'summary': summary,
                 'original_length': len(text),
                 'summary_length': len(summary),
                 'compression_ratio': f"{int((1 - len(summary)/len(text)) * 100)}%"
-            }, ensure_ascii=False)
-        }
-        
-    except Exception as e:
-        return {
-            'statusCode': 500,
-            'headers': {
-                'Content-Type': 'application/json',
-                'Access-Control-Allow-Origin': '*',
-            },
-            'body': json.dumps({'error': str(e)})
-        }
+            }
+            
+            self.wfile.write(json.dumps(result, ensure_ascii=False).encode('utf-8'))
+            
+        except Exception as e:
+            self.send_response(500)
+            self.send_header('Content-type', 'application/json')
+            self.send_header('Access-Control-Allow-Origin', '*')
+            self.end_headers()
+            self.wfile.write(json.dumps({
+                'error': str(e)
+            }).encode('utf-8'))

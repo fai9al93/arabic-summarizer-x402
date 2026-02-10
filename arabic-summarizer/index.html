@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Arabic Summarizer API - AI-Powered Arabic Text Summarization</title>
-    <meta name="description" content="تلخيص ذكي للنصوص العربية باستخدام AI. $0.01 per request. Fast, accurate, easy to integrate.">
+    <title>Arabic Summarizer - AI-Powered Arabic Text Summarization</title>
+    <meta name="description" content="تلخيص ذكي للنصوص العربية باستخدام AI. $0.01 per request.">
     <style>
         * {
             margin: 0;
@@ -13,133 +13,138 @@
         }
 
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: #0a0e27;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Cairo', sans-serif;
+            background: #000;
             color: #fff;
-            line-height: 1.6;
+            overflow-x: hidden;
         }
 
+        /* Header */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            padding: 2rem 4rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(10px);
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            letter-spacing: -1px;
+        }
+
+        nav a {
+            color: #fff;
+            text-decoration: none;
+            margin-left: 2rem;
+            font-size: 0.9rem;
+            transition: opacity 0.3s;
+        }
+
+        nav a:hover {
+            opacity: 0.6;
+        }
+
+        /* Hero */
         .hero {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            padding: 80px 20px;
-            text-align: center;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 8rem 2rem 4rem;
         }
 
         .hero h1 {
-            font-size: 3.5rem;
-            margin-bottom: 20px;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            font-size: clamp(3rem, 10vw, 8rem);
+            font-weight: 900;
+            line-height: 0.9;
+            letter-spacing: -4px;
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .gradient-text {
+            background: linear-gradient(135deg, #c8ff00 0%, #00ff87 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
 
         .hero p {
-            font-size: 1.4rem;
-            opacity: 0.9;
-            max-width: 700px;
-            margin: 0 auto 30px;
+            font-size: 1.2rem;
+            text-align: center;
+            opacity: 0.7;
+            max-width: 600px;
+            margin-bottom: 3rem;
         }
 
         .price-tag {
-            display: inline-block;
-            background: #c8ff00;
-            color: #333;
-            padding: 15px 40px;
-            border-radius: 50px;
-            font-size: 1.8rem;
-            font-weight: bold;
-            margin: 20px 0;
-        }
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 60px 20px;
-        }
-
-        section {
-            margin-bottom: 80px;
-        }
-
-        h2 {
-            font-size: 2.5rem;
-            margin-bottom: 30px;
-            color: #c8ff00;
-        }
-
-        .features-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 30px;
-            margin-top: 40px;
-        }
-
-        .feature {
-            background: rgba(255, 255, 255, 0.05);
-            padding: 30px;
-            border-radius: 15px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .feature h3 {
-            font-size: 1.5rem;
-            margin-bottom: 15px;
-            color: #c8ff00;
-        }
-
-        .code-block {
-            background: #1a1f3a;
-            padding: 30px;
-            border-radius: 10px;
-            border-left: 4px solid #c8ff00;
-            overflow-x: auto;
-            margin: 30px 0;
-        }
-
-        .code-block pre {
-            color: #a8b3cf;
-            font-family: 'Courier New', monospace;
-            font-size: 0.95rem;
-        }
-
-        .code-block code {
-            color: #c8ff00;
-        }
-
-        .try-it {
             background: rgba(200, 255, 0, 0.1);
-            border: 2px solid #c8ff00;
-            border-radius: 15px;
-            padding: 40px;
-            margin: 40px 0;
+            color: #c8ff00;
+            padding: 1rem 2rem;
+            border-radius: 50px;
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 3rem;
+        }
+
+        /* Demo Section */
+        .demo {
+            padding: 4rem 2rem;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .demo-box {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 3rem;
         }
 
         textarea {
             width: 100%;
-            min-height: 150px;
-            padding: 15px;
-            border-radius: 10px;
-            border: 1px solid rgba(255, 255, 255, 0.2);
+            min-height: 200px;
             background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            padding: 1.5rem;
             color: #fff;
             font-size: 1rem;
             font-family: inherit;
             resize: vertical;
+            margin-bottom: 1.5rem;
+        }
+
+        textarea:focus {
+            outline: none;
+            border-color: #c8ff00;
         }
 
         button {
             background: #c8ff00;
-            color: #333;
+            color: #000;
+            padding: 1.2rem 3rem;
+            font-size: 1rem;
+            font-weight: 700;
             border: none;
-            padding: 15px 40px;
             border-radius: 50px;
-            font-size: 1.1rem;
-            font-weight: bold;
             cursor: pointer;
-            margin-top: 20px;
-            transition: transform 0.2s;
+            transition: transform 0.3s, box-shadow 0.3s;
+            width: 100%;
         }
 
         button:hover {
-            transform: scale(1.05);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 40px rgba(200, 255, 0, 0.3);
         }
 
         button:disabled {
@@ -148,298 +153,288 @@
         }
 
         .result {
-            margin-top: 30px;
-            padding: 20px;
-            background: rgba(255, 255, 255, 0.05);
+            margin-top: 2rem;
+            padding: 2rem;
+            background: rgba(200, 255, 0, 0.05);
+            border: 1px solid rgba(200, 255, 0, 0.2);
             border-radius: 10px;
-            border-left: 4px solid #c8ff00;
+            display: none;
         }
 
-        .pricing-table {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 30px;
-            margin-top: 40px;
+        .result.show {
+            display: block;
         }
 
-        .pricing-card {
-            background: rgba(255, 255, 255, 0.05);
-            padding: 40px;
-            border-radius: 15px;
-            text-align: center;
-            border: 2px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .pricing-card.popular {
-            border-color: #c8ff00;
-            transform: scale(1.05);
-        }
-
-        .pricing-card h3 {
-            font-size: 1.8rem;
-            margin-bottom: 15px;
-        }
-
-        .pricing-card .price {
-            font-size: 2.5rem;
+        .result h3 {
             color: #c8ff00;
-            margin: 20px 0;
+            margin-bottom: 1rem;
         }
 
-        .pricing-card ul {
-            list-style: none;
-            margin: 20px 0;
-            text-align: right;
+        .result-text {
+            line-height: 1.8;
+            font-size: 1.1rem;
         }
 
-        .pricing-card li {
-            padding: 10px 0;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        .stats {
+            display: flex;
+            gap: 2rem;
+            margin-top: 1.5rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            font-size: 0.9rem;
+            opacity: 0.7;
         }
 
+        /* Features */
+        .features {
+            padding: 4rem 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .features h2 {
+            font-size: clamp(2rem, 6vw, 4rem);
+            font-weight: 900;
+            letter-spacing: -2px;
+            margin-bottom: 3rem;
+            text-align: center;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+        }
+
+        .feature {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 2rem;
+            border-radius: 15px;
+        }
+
+        .feature h3 {
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+            color: #c8ff00;
+        }
+
+        .feature p {
+            opacity: 0.7;
+            line-height: 1.6;
+        }
+
+        /* Code Example */
+        .code-section {
+            padding: 4rem 2rem;
+            background: rgba(255, 255, 255, 0.02);
+        }
+
+        .code-container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .code-container h2 {
+            font-size: clamp(2rem, 6vw, 4rem);
+            font-weight: 900;
+            letter-spacing: -2px;
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        pre {
+            background: rgba(0, 0, 0, 0.5);
+            padding: 2rem;
+            border-radius: 10px;
+            border-left: 3px solid #c8ff00;
+            overflow-x: auto;
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+
+        code {
+            color: #a8b3cf;
+            font-family: 'Courier New', monospace;
+        }
+
+        /* Footer */
         footer {
-            background: #0a0e27;
-            padding: 40px 20px;
+            padding: 4rem 2rem;
             text-align: center;
             border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        footer p {
+            opacity: 0.5;
+            margin-bottom: 1rem;
         }
 
         footer a {
             color: #c8ff00;
             text-decoration: none;
+            font-weight: 600;
         }
 
         @media (max-width: 768px) {
-            .hero h1 {
-                font-size: 2.5rem;
+            header {
+                padding: 1.5rem 2rem;
             }
 
-            .hero p {
-                font-size: 1.2rem;
+            nav a {
+                margin-left: 1rem;
+                font-size: 0.8rem;
             }
 
-            h2 {
-                font-size: 2rem;
+            .hero {
+                padding: 6rem 1.5rem 3rem;
+            }
+
+            .demo, .features, .code-container {
+                padding: 3rem 1.5rem;
             }
         }
     </style>
 </head>
 <body>
-    <div class="hero">
-        <h1>📝 Arabic Summarizer API</h1>
-        <p>تلخيص ذكي للنصوص العربية باستخدام AI<br>Fast • Accurate • Easy to Integrate</p>
+    <header>
+        <div class="logo">fofo</div>
+        <nav>
+            <a href="/">الرئيسية</a>
+            <a href="/#apis">APIs</a>
+            <a href="https://x.com/Fai9al_fofo" target="_blank">تويتر</a>
+        </nav>
+    </header>
+
+    <section class="hero">
+        <h1>
+            <span class="gradient-text">arabic</span><br>
+            summarizer
+        </h1>
+        <p>تلخيص ذكي للنصوص العربية باستخدام AI. حوّل مقالات طويلة لملخصات مفيدة في ثواني.</p>
         <div class="price-tag">$0.01 / request</div>
-    </div>
+    </section>
 
-    <div class="container">
-        <!-- Features -->
-        <section>
-            <h2>Features</h2>
-            <div class="features-grid">
-                <div class="feature">
-                    <h3>⚡ سريع جداً</h3>
-                    <p>Response time أقل من 2 ثانية. Infrastructure محسّنة للأداء العالي.</p>
-                </div>
-                <div class="feature">
-                    <h3>🎯 دقيق</h3>
-                    <p>Powered by Claude Sonnet 4.5. يفهم السياق ويعطيك ملخص مفيد.</p>
-                </div>
-                <div class="feature">
-                    <h3>🔧 سهل الاستخدام</h3>
-                    <p>REST API بسيط. تكامل في دقائق مع أي لغة برمجة.</p>
-                </div>
-                <div class="feature">
-                    <h3>📊 موثوق</h3>
-                    <p>Hosted على Vercel. 99.9% uptime. Automatic scaling.</p>
+    <section class="demo">
+        <div class="demo-box">
+            <h2 style="margin-bottom: 2rem;">جرّب الآن</h2>
+            <textarea id="inputText" placeholder="الصق النص العربي هنا (50 حرف كحد أدنى)..."></textarea>
+            <button onclick="summarize()">لخّص النص</button>
+            <div id="result" class="result">
+                <h3>الملخص:</h3>
+                <div id="summaryText" class="result-text"></div>
+                <div class="stats">
+                    <span>الأصلي: <strong id="originalLength"></strong> حرف</span>
+                    <span>الملخص: <strong id="summaryLength"></strong> حرف</span>
+                    <span>الضغط: <strong id="compressionRatio"></strong></span>
                 </div>
             </div>
-        </section>
+        </div>
+    </section>
 
-        <!-- Quick Start -->
-        <section>
-            <h2>Quick Start</h2>
-            <p>ابدأ الاستخدام في 3 خطوات:</p>
-
-            <div class="code-block">
-                <pre><code>curl -X POST https://fofo-apis-vercel.vercel.app/api/summarize \
-  -H "Content-Type: application/json" \
-  -d '{
-    "text": "النص العربي اللي تبي تلخصه هنا..."
-  }'</code></pre>
+    <section class="features">
+        <h2>المميزات</h2>
+        <div class="features-grid">
+            <div class="feature">
+                <h3>✨ مدعوم بـ AI</h3>
+                <p>يستخدم Claude Sonnet 4.5 لتلخيص دقيق ومفهوم.</p>
             </div>
+            <div class="feature">
+                <h3>⚡ سريع</h3>
+                <p>نتائج فورية في أقل من ثانيتين.</p>
+            </div>
+            <div class="feature">
+                <h3>💰 رخيص</h3>
+                <p>$0.01 فقط لكل request. بدون اشتراكات.</p>
+            </div>
+            <div class="feature">
+                <h3>🔒 آمن</h3>
+                <p>نصوصك لا تُحفظ أو تُشارك.</p>
+            </div>
+            <div class="feature">
+                <h3>🌐 سهل التكامل</h3>
+                <p>REST API بسيط. يعمل مع أي لغة برمجة.</p>
+            </div>
+            <div class="feature">
+                <h3>📱 Responsive</h3>
+                <p>يشتغل على الموبايل والديسكتوب.</p>
+            </div>
+        </div>
+    </section>
 
-            <p>Response:</p>
-            <div class="code-block">
-                <pre><code>{
-  "summary": "الملخص المختصر للنص...",
-  "original_length": 1500,
-  "summary_length": 150,
-  "compression_ratio": "90%"
+    <section class="code-section">
+        <div class="code-container">
+            <h2>مثال للكود</h2>
+            <pre><code>{
+  "method": "POST",
+  "url": "https://fofo-apis-vercel.vercel.app/api/summarize",
+  "headers": {
+    "Content-Type": "application/json"
+  },
+  "body": {
+    "text": "النص المراد تلخيصه هنا..."
+  }
+}
+
+// Response
+{
+  "summary": "الملخص المختصر...",
+  "original_length": 500,
+  "summary_length": 120,
+  "compression_ratio": "76%"
 }</code></pre>
-            </div>
-        </section>
-
-        <!-- Try It Now -->
-        <section>
-            <div class="try-it">
-                <h2>Try It Now</h2>
-                <p>جرب الـ API مباشرة (أول 10 requests مجاناً):</p>
-                
-                <textarea id="inputText" placeholder="اكتب أو الصق نص عربي هنا للتجربة..."></textarea>
-                
-                <button onclick="summarize()">تلخيص</button>
-                
-                <div id="result" class="result" style="display: none;">
-                    <h3>الملخص:</h3>
-                    <p id="summaryText"></p>
-                </div>
-            </div>
-        </section>
-
-        <!-- Pricing -->
-        <section>
-            <h2>Pricing</h2>
-            <div class="pricing-table">
-                <div class="pricing-card">
-                    <h3>Free Tier</h3>
-                    <div class="price">$0</div>
-                    <ul>
-                        <li>✅ أول 10 requests مجاناً</li>
-                        <li>✅ بدون بطاقة ائتمانية</li>
-                        <li>✅ Full API access</li>
-                    </ul>
-                </div>
-
-                <div class="pricing-card popular">
-                    <h3>Pay As You Go</h3>
-                    <div class="price">$0.01</div>
-                    <p style="margin-top: -15px;">per request</p>
-                    <ul>
-                        <li>✅ No monthly fees</li>
-                        <li>✅ Unlimited requests</li>
-                        <li>✅ Priority support</li>
-                        <li>✅ Higher rate limits</li>
-                    </ul>
-                </div>
-
-                <div class="pricing-card">
-                    <h3>Enterprise</h3>
-                    <div class="price">Custom</div>
-                    <ul>
-                        <li>✅ Volume discounts</li>
-                        <li>✅ Dedicated support</li>
-                        <li>✅ Custom models</li>
-                        <li>✅ SLA guarantees</li>
-                    </ul>
-                </div>
-            </div>
-        </section>
-
-        <!-- Use Cases -->
-        <section>
-            <h2>Use Cases</h2>
-            <div class="features-grid">
-                <div class="feature">
-                    <h3>📰 Content Creators</h3>
-                    <p>لخص مقالاتك الطويلة لـ social media posts سريعة.</p>
-                </div>
-                <div class="feature">
-                    <h3>📚 Researchers</h3>
-                    <p>اختصر أوراق بحثية ومقالات أكاديمية لمراجعة سريعة.</p>
-                </div>
-                <div class="feature">
-                    <h3>📱 App Developers</h3>
-                    <p>أضف summarization feature لتطبيقك في دقائق.</p>
-                </div>
-                <div class="feature">
-                    <h3>💼 Businesses</h3>
-                    <p>لخص تقارير وdocuments للمديرين المشغولين.</p>
-                </div>
-            </div>
-        </section>
-
-        <!-- Documentation -->
-        <section>
-            <h2>Documentation</h2>
-            
-            <h3 style="margin: 30px 0 15px;">Endpoint</h3>
-            <div class="code-block">
-                <pre>POST https://fofo-apis-vercel.vercel.app/api/summarize</pre>
-            </div>
-
-            <h3 style="margin: 30px 0 15px;">Request Body</h3>
-            <div class="code-block">
-                <pre><code>{
-  "text": "string (required) - النص العربي المراد تلخيصه"
-}</code></pre>
-            </div>
-
-            <h3 style="margin: 30px 0 15px;">Response</h3>
-            <div class="code-block">
-                <pre><code>{
-  "summary": "string - الملخص",
-  "original_length": number,
-  "summary_length": number,
-  "compression_ratio": "string"
-}</code></pre>
-            </div>
-
-            <h3 style="margin: 30px 0 15px;">Error Codes</h3>
-            <ul style="margin: 20px 0; list-style: none;">
-                <li style="padding: 10px; background: rgba(255,255,255,0.05); margin: 5px 0; border-radius: 5px;">
-                    <code>400</code> - Bad Request (نص فارغ أو غير صالح)
-                </li>
-                <li style="padding: 10px; background: rgba(255,255,255,0.05); margin: 5px 0; border-radius: 5px;">
-                    <code>500</code> - Internal Server Error
-                </li>
-            </ul>
-        </section>
-    </div>
+        </div>
+    </section>
 
     <footer>
-        <p>Built by <a href="https://x.com/Fai9al_fofo" target="_blank">@Fai9al_fofo</a></p>
-        <p style="margin-top: 10px;">Questions? DM me on <a href="https://x.com/Fai9al_fofo" target="_blank">X</a></p>
-        <p style="margin-top: 20px;"><a href="/">← Back to all APIs</a></p>
+        <p>Built with ❤️ by <a href="https://x.com/Fai9al_fofo" target="_blank">@Fai9al_fofo</a></p>
+        <p>Need custom APIs? Let's talk</p>
     </footer>
 
     <script>
         async function summarize() {
-            const inputText = document.getElementById('inputText').value;
-            const resultDiv = document.getElementById('result');
-            const summaryText = document.getElementById('summaryText');
+            const inputText = document.getElementById('inputText').value.trim();
             const button = document.querySelector('button');
-
-            if (!inputText.trim()) {
-                alert('الرجاء إدخال نص للتلخيص');
+            const result = document.getElementById('result');
+            
+            if (!inputText) {
+                alert('الرجاء إدخال نص');
                 return;
             }
-
+            
+            if (inputText.length < 50) {
+                alert('النص قصير جداً. الحد الأدنى 50 حرف.');
+                return;
+            }
+            
             button.disabled = true;
             button.textContent = 'جاري التلخيص...';
-
+            
             try {
                 const response = await fetch('/api/summarize', {
                     method: 'POST',
                     headers: {
-                        'Content-Type': 'application/json',
+                        'Content-Type': 'application/json'
                     },
                     body: JSON.stringify({ text: inputText })
                 });
-
+                
                 const data = await response.json();
-
+                
                 if (response.ok) {
-                    summaryText.textContent = data.summary;
-                    resultDiv.style.display = 'block';
+                    document.getElementById('summaryText').textContent = data.summary;
+                    document.getElementById('originalLength').textContent = data.original_length;
+                    document.getElementById('summaryLength').textContent = data.summary_length;
+                    document.getElementById('compressionRatio').textContent = data.compression_ratio;
+                    result.classList.add('show');
                 } else {
-                    alert('حدث خطأ: ' + (data.error || 'Unknown error'));
+                    alert('خطأ: ' + (data.error || 'حدث خطأ ما'));
                 }
             } catch (error) {
-                alert('حدث خطأ في الاتصال');
-                console.error(error);
+                alert('خطأ في الاتصال: ' + error.message);
             } finally {
                 button.disabled = false;
-                button.textContent = 'تلخيص';
+                button.textContent = 'لخّص النص';
             }
         }
     </script>
